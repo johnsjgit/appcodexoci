@@ -1,0 +1,17 @@
+[Unit]
+Description=OCI AI Quiz demo
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ai-quiz
+EnvironmentFile=/etc/ai-quiz.env
+ExecStart=/opt/ai-quiz/venv/bin/gunicorn --bind 127.0.0.1:8000 --workers 1 app:app
+Restart=always
+RestartSec=5
+User=opc
+Group=opc
+
+[Install]
+WantedBy=multi-user.target

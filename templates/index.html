@@ -1,0 +1,974 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Level up your AI skills.</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --air: #fcfbfa;
+      --bark: #312d2a;
+      --oracle-red: #c74634;
+      --neutral-1: #f5f4f2;
+      --neutral-2: #dfdcd8;
+      --neutral-3: #9e9892;
+      --neutral-4: #70736e;
+      --ocean: #2c5967;
+      --ivy: #759c6c;
+      --sienna: #ae562c;
+      --bg: #fcfbfa;
+      --panel: rgba(245, 244, 242, 0.92);
+      --panel-2: rgba(252, 251, 250, 0.88);
+      --line: rgba(112, 115, 110, 0.26);
+      --text: #312d2a;
+      --muted: #70736e;
+      --accent: #c74634;
+      --accent-2: #2c5967;
+      --bad: #c74634;
+      --good: #759c6c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 48% -10%, rgba(199, 70, 52, 0.16), transparent 30%),
+        radial-gradient(circle at 86% 12%, rgba(44, 89, 103, 0.16), transparent 24%),
+        linear-gradient(145deg, #fcfbfa 0%, #f5f4f2 48%, #dfdcd8 100%);
+      color: var(--text);
+    }
+
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 80% 15%, rgba(44, 89, 103, 0.16), transparent 22%),
+        radial-gradient(circle at 20% 82%, rgba(199, 70, 52, 0.12), transparent 24%);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      opacity: 0.28;
+      filter: blur(0.2px);
+      animation: floatSoft 24s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 360px;
+      height: 190px;
+      right: -80px;
+      top: 46px;
+      background: rgba(44, 89, 103, 0.72);
+    }
+
+    .orb.two {
+      width: 300px;
+      height: 150px;
+      left: 42%;
+      bottom: -42px;
+      background: rgba(174, 86, 44, 0.56);
+      animation-delay: -7s;
+    }
+
+    .orb.three {
+      width: 230px;
+      height: 130px;
+      left: 8%;
+      top: 12%;
+      background: rgba(117, 156, 108, 0.38);
+      animation-delay: -13s;
+    }
+
+    .logo-cloud {
+      position: absolute;
+      inset: 0;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: rgba(49, 45, 42, 0.10);
+      text-transform: uppercase;
+    }
+
+    .logo-cloud span {
+      position: absolute;
+      display: inline-block;
+      animation: drift 34s linear infinite;
+      white-space: nowrap;
+    }
+
+    .logo-cloud span:nth-child(1) {
+      top: 10%;
+      left: -18%;
+      font-size: 58px;
+    }
+
+    .logo-cloud span:nth-child(2) {
+      top: 40%;
+      left: 62%;
+      font-size: 34px;
+      animation-duration: 42s;
+      animation-delay: -12s;
+    }
+
+    .logo-cloud span:nth-child(3) {
+      top: 72%;
+      left: -24%;
+      font-size: 44px;
+      color: rgba(199, 70, 52, 0.12);
+      animation-duration: 46s;
+      animation-delay: -20s;
+    }
+
+    .logo-cloud span:nth-child(4) {
+      top: 24%;
+      left: 36%;
+      font-size: 22px;
+      color: rgba(44, 89, 103, 0.16);
+      animation-duration: 38s;
+      animation-delay: -6s;
+    }
+
+    .learning-ribbon {
+      position: absolute;
+      left: 18%;
+      right: 10%;
+      top: 18%;
+      height: 320px;
+      opacity: 0.20;
+      background:
+        radial-gradient(ellipse at center, transparent 42%, rgba(199, 70, 52, 0.18) 43%, transparent 45%),
+        repeating-radial-gradient(ellipse at center, rgba(44, 89, 103, 0.18) 0 5px, transparent 6px 18px);
+      transform: rotate(-11deg);
+      animation: pulsePattern 18s ease-in-out infinite;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(280px, 390px) 1fr;
+    }
+
+    aside {
+      padding: 30px;
+      border-right: 1px solid var(--line);
+      background: rgba(49, 45, 42, 0.96);
+      backdrop-filter: blur(18px);
+      color: var(--air);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+
+    .logo-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--oracle-red), var(--sienna));
+      color: var(--air);
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(28px, 3.4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    aside > h1 {
+      font-size: clamp(32px, 3.2vw, 44px);
+      line-height: 1.08;
+      max-width: 320px;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    aside p,
+    aside .leaderboard ol {
+      color: var(--neutral-2);
+    }
+
+    .score-card {
+      margin: 28px 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(252, 251, 250, 0.08);
+    }
+
+    .money-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(252, 251, 250, 0.14);
+      color: var(--neutral-2);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .money-row.active {
+      color: var(--air);
+      background: linear-gradient(135deg, var(--oracle-red), var(--sienna));
+      margin-inline: -10px;
+      padding-inline: 10px;
+      border-radius: 8px;
+      border-bottom: 0;
+    }
+
+    .leaderboard {
+      margin-top: 22px;
+    }
+
+    .leaderboard h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .leaderboard ol {
+      padding-left: 22px;
+      margin: 0;
+      color: var(--neutral-2);
+    }
+
+    .leaderboard li {
+      margin-bottom: 8px;
+    }
+
+    main {
+      display: grid;
+      place-items: center;
+      padding: 36px;
+    }
+
+    .game {
+      width: min(100%, 980px);
+      min-height: 640px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(252, 251, 250, 0.96), rgba(245, 244, 242, 0.94));
+      box-shadow: 0 28px 100px rgba(49, 45, 42, 0.20);
+      padding: clamp(20px, 4vw, 44px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 0 48%, rgba(199, 70, 52, 0.06) 50%, transparent 52%),
+        repeating-linear-gradient(135deg, rgba(44, 89, 103, 0.06) 0 1px, transparent 1px 28px);
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .screen[hidden] { display: none; }
+
+    label {
+      display: block;
+      color: var(--muted);
+      margin: 26px 0 8px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--air);
+      color: var(--text);
+      padding: 0 16px;
+      font-size: 17px;
+      outline: none;
+    }
+
+    .button {
+      min-height: 52px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--oracle-red), var(--sienna));
+      color: var(--air);
+      padding: 0 20px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .button.secondary {
+      background: var(--air);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 12px;
+      background: var(--air);
+      color: var(--text);
+    }
+
+    .timer {
+      margin: -14px 0 22px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(252, 251, 250, 0.82);
+    }
+
+    .timer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .timer-clock {
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-bar {
+      height: 10px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(49, 45, 42, 0.12);
+    }
+
+    .timer-fill {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pine), var(--oracle-red));
+      transition: width 0.25s linear, background 0.2s ease;
+    }
+
+    .timer.warning .timer-fill {
+      background: linear-gradient(90deg, var(--sienna), var(--oracle-red));
+    }
+
+    .question {
+      min-height: 142px;
+      display: grid;
+      align-items: center;
+      padding: 26px;
+      border: 1px solid rgba(199, 70, 52, 0.34);
+      border-radius: 8px;
+      background: rgba(49, 45, 42, 0.96);
+      color: var(--air);
+      font-size: clamp(20px, 2.4vw, 30px);
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .answer {
+      min-height: 76px;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .answer.correct {
+      border-color: rgba(117, 156, 108, 0.9);
+      background: rgba(117, 156, 108, 0.20);
+    }
+
+    .answer.wrong {
+      border-color: rgba(199, 70, 52, 0.9);
+      background: rgba(199, 70, 52, 0.16);
+    }
+
+    .feedback {
+      min-height: 86px;
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(245, 244, 242, 0.72);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .feedback strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 28px 0;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: rgba(252, 251, 250, 0.82);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 30px;
+    }
+
+    .final-ranking {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(252, 251, 250, 0.82);
+    }
+
+    .final-ranking h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .final-ranking ol {
+      margin: 0;
+      padding-left: 24px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .podium-wrap {
+      margin: 26px 0 8px;
+      padding: 20px 18px 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(252, 251, 250, 0.92), rgba(223, 220, 216, 0.42));
+    }
+
+    .podium-title {
+      margin: 0 0 18px;
+      color: var(--bark);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .podium {
+      display: grid;
+      grid-template-columns: 1fr 1.12fr 1fr;
+      align-items: end;
+      gap: 0;
+      min-height: 260px;
+    }
+
+    .podium-place {
+      display: grid;
+      justify-items: center;
+      align-items: end;
+      min-width: 0;
+    }
+
+    .cup {
+      position: relative;
+      width: 94px;
+      height: 122px;
+      margin-bottom: 8px;
+    }
+
+    .cup::before,
+    .cup::after {
+      content: "";
+      position: absolute;
+      top: 26px;
+      width: 28px;
+      height: 38px;
+      border: 7px solid currentColor;
+      border-radius: 50%;
+      opacity: 0.78;
+    }
+
+    .cup::before { left: -14px; }
+    .cup::after { right: -14px; }
+
+    .cup-bowl {
+      position: absolute;
+      left: 18px;
+      top: 0;
+      width: 58px;
+      height: 74px;
+      background: currentColor;
+      border-radius: 10px 10px 28px 28px;
+      clip-path: polygon(0 0, 100% 0, 86% 70%, 50% 100%, 14% 70%);
+      box-shadow: inset 0 8px rgba(255, 255, 255, 0.18);
+    }
+
+    .cup-stem {
+      position: absolute;
+      left: 41px;
+      top: 68px;
+      width: 12px;
+      height: 28px;
+      background: currentColor;
+    }
+
+    .cup-base {
+      position: absolute;
+      left: 26px;
+      bottom: 0;
+      width: 42px;
+      height: 20px;
+      border-radius: 4px;
+      background: var(--bark);
+    }
+
+    .cup.gold { color: #f5c542; }
+    .cup.silver { color: #c9c9c7; }
+    .cup.bronze { color: #d88b5f; }
+
+    .podium-block {
+      width: 100%;
+      min-height: 92px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 14px 10px;
+      background: var(--ocean);
+      color: var(--air);
+      box-shadow: 0 18px 34px rgba(49, 45, 42, 0.18);
+    }
+
+    .podium-place.first .podium-block {
+      min-height: 140px;
+      background: #276f80;
+    }
+
+    .podium-place.second .podium-block {
+      min-height: 108px;
+    }
+
+    .podium-place.third .podium-block {
+      min-height: 86px;
+      background: #24515e;
+    }
+
+    .place-number {
+      font-size: 44px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .place-label {
+      margin-top: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(252, 251, 250, 0.78);
+    }
+
+    .winner-name {
+      max-width: 100%;
+      margin-top: 6px;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+      text-align: center;
+    }
+
+    .winner-score {
+      margin-top: 2px;
+      font-size: 13px;
+      color: rgba(252, 251, 250, 0.78);
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .confetti i {
+      position: absolute;
+      top: -20px;
+      width: 9px;
+      height: 14px;
+      border-radius: 2px;
+      animation: fall 1.8s ease-out forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(105vh) rotate(540deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes drift {
+      from {
+        transform: translateX(-12vw);
+      }
+      to {
+        transform: translateX(118vw);
+      }
+    }
+
+    @keyframes floatSoft {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+      }
+      50% {
+        transform: translate3d(-34px, 22px, 0) rotate(4deg);
+      }
+    }
+
+    @keyframes pulsePattern {
+      0%, 100% {
+        transform: rotate(-11deg) scale(1);
+        opacity: 0.16;
+      }
+      50% {
+        transform: rotate(-8deg) scale(1.04);
+        opacity: 0.25;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .orb,
+      .logo-cloud span,
+      .learning-ribbon,
+      .confetti i {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 880px) {
+      .shell { grid-template-columns: 1fr; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+      main { padding: 16px; }
+      h1 { font-size: clamp(26px, 8vw, 38px); }
+      aside > h1 { max-width: 100%; }
+      .game { min-height: auto; }
+      .answers, .result-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+    <div class="learning-ribbon"></div>
+    <div class="logo-cloud">
+      <span>ORACLE AI</span>
+      <span>Jugando aprendiendo</span>
+      <span>ORACLE</span>
+      <span>Level up your AI skills</span>
+    </div>
+  </div>
+  <div class="shell">
+    <aside>
+      <div class="logo">
+        <div class="logo-mark">AI</div>
+        <div>
+          <strong>AI Quiz Arena</strong>
+          <p>ATP + Python + Nginx</p>
+        </div>
+      </div>
+      <h1>Level up your AI skills.</h1>
+      <p>10 preguntas aleatorias sobre inteligencia artificial general. Cada acierto suma 10 puntos.</p>
+
+      <div class="score-card" id="ladder"></div>
+
+    </aside>
+
+    <main>
+      <section class="game">
+        <div class="content">
+          <div class="screen" id="welcome">
+            <h1>Comienza la prueba</h1>
+            <p>El juego elegirá 10 preguntas desde un banco amplio. Al final verás únicamente tu resultado.</p>
+            <div class="actions">
+              <button class="button" id="start">Comenzar</button>
+            </div>
+          </div>
+
+          <div class="screen" id="quiz" hidden>
+            <div class="topline">
+              <div id="player">Jugador</div>
+              <div class="pill" id="progress">Pregunta 1 de 10</div>
+            </div>
+            <div class="timer" id="timer">
+              <div class="timer-top">
+                <span>Tiempo por pregunta</span>
+                <span class="timer-clock" id="timerClock">00:30</span>
+              </div>
+              <div class="timer-bar" aria-hidden="true">
+                <div class="timer-fill" id="timerFill"></div>
+              </div>
+            </div>
+            <div class="question" id="question"></div>
+            <div class="answers" id="answers"></div>
+            <div class="feedback" id="feedback">Selecciona una respuesta.</div>
+            <div class="actions">
+              <button class="button secondary" id="next" disabled>Siguiente</button>
+            </div>
+          </div>
+
+          <div class="screen" id="result" hidden>
+            <h1 id="resultTitle">Resultado</h1>
+            <p id="resultCopy"></p>
+            <div class="result-grid">
+              <div class="metric"><span>Puntos</span><strong id="finalScore">0</strong></div>
+              <div class="metric"><span>Correctas</span><strong id="correctCount">0</strong></div>
+              <div class="metric"><span>Tiempo</span><strong id="duration">0s</strong></div>
+            </div>
+            <div class="actions">
+              <button class="button secondary" id="again">Jugar otra vez</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const QUESTION_SECONDS = 30;
+    const state = { roundId: "", questions: [], answers: [], index: 0, startedAt: 0, locked: false, timerId: null, timeLeft: QUESTION_SECONDS };
+    const money = [100, 250, 500, 1000, 2000, 4000, 8000, 16000, 32000, 64000];
+
+    function show(id) {
+      ["welcome", "quiz", "result"].forEach((name) => $(name).hidden = name !== id);
+    }
+
+    function renderLadder() {
+      $("ladder").innerHTML = money.map((value, i) => (
+        `<div class="money-row ${state.index === i ? "active" : ""}"><span>Pregunta ${i + 1}</span><strong>$${value}</strong></div>`
+      )).reverse().join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const rest = seconds % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
+    }
+
+    function updateTimer() {
+      $("timerClock").textContent = formatTime(state.timeLeft);
+      $("timerFill").style.width = `${(state.timeLeft / QUESTION_SECONDS) * 100}%`;
+      $("timer").classList.toggle("warning", state.timeLeft <= 10);
+    }
+
+    function clearQuestionTimer() {
+      if (state.timerId) {
+        clearInterval(state.timerId);
+        state.timerId = null;
+      }
+    }
+
+    function startQuestionTimer() {
+      clearQuestionTimer();
+      state.timeLeft = QUESTION_SECONDS;
+      updateTimer();
+      state.timerId = setInterval(() => {
+        if (state.locked) {
+          clearQuestionTimer();
+          return;
+        }
+        state.timeLeft -= 1;
+        updateTimer();
+        if (state.timeLeft <= 0) handleTimeExpired();
+      }, 1000);
+    }
+
+    async function startGame() {
+      const res = await fetch("/api/questions");
+      const data = await res.json();
+      state.roundId = data.roundId;
+      state.questions = data.questions;
+      state.answers = [];
+      state.index = 0;
+      state.startedAt = data.startedAt;
+      show("quiz");
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      state.locked = false;
+      const q = state.questions[state.index];
+      $("player").textContent = "Prueba en curso";
+      $("progress").textContent = `Pregunta ${state.index + 1} de ${state.questions.length} | ${q.category} | ${q.difficulty}`;
+      $("question").textContent = q.question;
+      $("feedback").textContent = "Selecciona una respuesta.";
+      $("next").disabled = true;
+      $("answers").innerHTML = q.options.map((option, i) => (
+        `<button class="answer" data-index="${i}"><span>${String.fromCharCode(65 + i)}.</span> ${escapeHtml(option)}</button>`
+      )).join("");
+      document.querySelectorAll(".answer").forEach((button) => button.addEventListener("click", pickAnswer));
+      renderLadder();
+      startQuestionTimer();
+    }
+
+    async function pickAnswer(event) {
+      if (state.locked) return;
+      await finalizeAnswer(Number(event.currentTarget.dataset.index), false);
+    }
+
+    async function handleTimeExpired() {
+      if (state.locked) return;
+      await finalizeAnswer(-1, true);
+    }
+
+    async function finalizeAnswer(selected, timedOut) {
+      if (state.locked) return;
+      state.locked = true;
+      clearQuestionTimer();
+      state.timeLeft = Math.max(0, state.timeLeft);
+      updateTimer();
+      const q = state.questions[state.index];
+      state.answers.push({ id: q.id, selected });
+      const res = await fetch("/api/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roundId: state.roundId, id: q.id, selected })
+      });
+      const result = await res.json();
+      document.querySelectorAll(".answer").forEach((button) => {
+        const index = Number(button.dataset.index);
+        button.disabled = true;
+        if (index === result.correctIndex) button.classList.add("correct");
+        if (index === selected && !result.correct) button.classList.add("wrong");
+      });
+      $("next").disabled = false;
+      $("feedback").innerHTML = timedOut
+        ? `<strong>Tiempo agotado</strong>No pasa nada, sigue intentando. ${escapeHtml(result.explanation)}`
+        : `<strong>${result.message}</strong>${escapeHtml(result.explanation)}`;
+    }
+
+    async function next() {
+      clearQuestionTimer();
+      if (state.index < state.questions.length - 1) {
+        state.index += 1;
+        renderQuestion();
+        return;
+      }
+      const res = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roundId: state.roundId, answers: state.answers, startedAt: state.startedAt })
+      });
+      const data = await res.json();
+      showResult(data);
+    }
+
+    function showResult(data) {
+      clearQuestionTimer();
+      const correct = data.results.filter((row) => row.correct).length;
+      $("resultTitle").textContent = correct >= 7 ? "Celebración de conocimiento" : "Juego completado";
+      $("resultCopy").textContent = `Lograste ${data.score} de ${data.maxScore} puntos. ${correct >= 7 ? "Muy bien jugado amigo" : "No pasa nada, sigue intentando"}`;
+      $("finalScore").textContent = data.score;
+      $("correctCount").textContent = `${correct}/${data.results.length}`;
+      $("duration").textContent = `${data.durationSeconds}s`;
+      show("result");
+      celebrate();
+    }
+
+    function celebrate() {
+      const colors = ["#c74634", "#ae562c", "#2c5967", "#759c6c", "#dfdcd8"];
+      const layer = document.createElement("div");
+      layer.className = "confetti";
+      for (let i = 0; i < 80; i += 1) {
+        const piece = document.createElement("i");
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colors[i % colors.length];
+        piece.style.animationDelay = `${Math.random() * 0.35}s`;
+        piece.style.transform = `rotate(${Math.random() * 180}deg)`;
+        layer.appendChild(piece);
+      }
+      document.body.appendChild(layer);
+      setTimeout(() => layer.remove(), 2400);
+    }
+
+    $("start").addEventListener("click", startGame);
+    $("next").addEventListener("click", next);
+    $("again").addEventListener("click", () => {
+      clearQuestionTimer();
+      show("welcome");
+    });
+
+    renderLadder();
+  </script>
+</body>
+</html>
