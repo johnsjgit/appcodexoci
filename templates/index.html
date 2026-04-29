@@ -45,11 +45,11 @@
       min-height: 100vh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(ellipse at 12% 2%, rgba(252, 221, 170, 0.72), transparent 16%),
-        radial-gradient(ellipse at 19% 0%, rgba(255, 132, 112, 0.62), transparent 18%),
-        radial-gradient(ellipse at 90% 22%, rgba(213, 219, 168, 0.58), transparent 20%),
-        radial-gradient(ellipse at 82% 67%, rgba(174, 86, 44, 0.48), transparent 23%),
-        linear-gradient(135deg, #143d4b 0%, #103746 44%, #0f3441 100%);
+        radial-gradient(ellipse at 8% 0%, rgba(252, 221, 170, 0.86), transparent 20%),
+        radial-gradient(ellipse at 20% 3%, rgba(255, 150, 126, 0.58), transparent 21%),
+        radial-gradient(ellipse at 91% 18%, rgba(213, 219, 168, 0.54), transparent 24%),
+        radial-gradient(ellipse at 82% 78%, rgba(117, 156, 108, 0.34), transparent 28%),
+        linear-gradient(135deg, #f8f4ee 0%, #dce8e6 36%, #cbdedb 62%, #edf0eb 100%);
       color: var(--text);
       overflow-x: hidden;
     }
@@ -60,14 +60,11 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(ellipse at 10% 2%, rgba(252, 251, 250, 0.22), transparent 13%),
-        radial-gradient(ellipse at 21% 4%, rgba(252, 154, 122, 0.34), transparent 11%),
-        radial-gradient(ellipse at 77% 92%, rgba(120, 92, 158, 0.26), transparent 15%),
-        repeating-radial-gradient(ellipse at 18% 5%, rgba(252, 251, 250, 0.22) 0 1px, transparent 2px 16px),
-        repeating-linear-gradient(164deg, rgba(252, 251, 250, 0.14) 0 2px, transparent 2px 24px);
-      mask-image: linear-gradient(90deg, black 0%, black 100%);
-      opacity: 0.72;
-      animation: drift 28s linear infinite;
+        radial-gradient(ellipse at 6% 0%, rgba(252, 251, 250, 0.76), transparent 18%),
+        radial-gradient(ellipse at 17% 2%, rgba(199, 70, 52, 0.20), transparent 15%),
+        radial-gradient(ellipse at 92% 14%, rgba(117, 156, 108, 0.20), transparent 20%),
+        linear-gradient(180deg, rgba(252, 251, 250, 0.28), rgba(252, 251, 250, 0.54));
+      opacity: 1;
     }
 
     body::after {
@@ -78,17 +75,12 @@
       z-index: 0;
       pointer-events: none;
       transform: translateX(-50%);
-      color: rgba(252, 251, 250, 0.24);
+      color: rgba(49, 45, 42, 0.08);
       font-size: clamp(62px, 8vw, 116px);
       line-height: 1;
       font-weight: 300;
       letter-spacing: 0.12em;
       white-space: nowrap;
-    }
-
-    @keyframes drift {
-      from { background-position: 0 0, 0 0; }
-      to { background-position: 360px 180px, -280px 240px; }
     }
 
     .page {
@@ -116,8 +108,8 @@
       line-height: 0.95;
       letter-spacing: 0;
       font-weight: 950;
-      color: var(--air);
-      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.26);
+      color: var(--bark);
+      text-shadow: 0 8px 24px rgba(252, 251, 250, 0.44);
     }
 
     h1 span { color: var(--oracle-red); }
@@ -126,7 +118,7 @@
       justify-self: end;
       align-self: center;
       text-align: center;
-      color: var(--air);
+      color: var(--bark);
       font-weight: 900;
       letter-spacing: 0;
     }
@@ -372,6 +364,103 @@
       font-size: 13px;
     }
 
+    .architecture-flow {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(44, 89, 103, 0.08), transparent),
+        rgba(252, 251, 250, 0.78);
+      padding: 12px;
+      overflow: hidden;
+    }
+
+    .arch-canvas {
+      position: relative;
+      min-height: 285px;
+    }
+
+    .arch-canvas svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .arch-node {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 118px;
+      min-height: 48px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(252, 251, 250, 0.94);
+      color: var(--text);
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.15;
+      font-weight: 850;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 10px 22px rgba(49, 45, 42, 0.08);
+    }
+
+    .arch-node.core {
+      width: 142px;
+      min-height: 58px;
+      border-color: var(--active-color, var(--oracle-red));
+      background: rgba(199, 70, 52, 0.10);
+      color: var(--active-color, var(--oracle-red));
+      font-size: 12px;
+    }
+
+    .arch-node.external {
+      border-color: rgba(117, 156, 108, 0.62);
+      background: rgba(117, 156, 108, 0.12);
+    }
+
+    .architecture-flow h3 {
+      margin: 0 0 9px;
+      color: var(--text);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .architecture-flow p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.48;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .meta-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(252, 251, 250, 0.76);
+      padding: 11px;
+    }
+
+    .meta-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--active-color, var(--cyan));
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .meta-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
     .pill-row {
       display: flex;
       flex-wrap: wrap;
@@ -455,6 +544,8 @@
       .innovation-list { grid-template-columns: 1fr; }
       .category-card { min-height: auto; }
       .mind-map { height: 340px; }
+      .meta-grid { grid-template-columns: 1fr; }
+      .arch-canvas { min-height: 360px; }
     }
   </style>
 </head>
@@ -490,9 +581,21 @@
         </div>
         <div class="detail-body">
           <div class="mind-map" id="mindMap"></div>
+          <div class="architecture-flow">
+            <h3>Arquitectura integrada</h3>
+            <div class="arch-canvas" id="architectureFlow"></div>
+            <p id="architectureNarrative"></p>
+          </div>
           <div class="detail-section">
             <h3>Qué es</h3>
             <p id="detailDescription"></p>
+          </div>
+          <div class="detail-section">
+            <h3>Modelo de ejecución e integración externa</h3>
+            <div class="meta-grid">
+              <div class="meta-card"><strong>Modelo</strong><span id="runModel"></span></div>
+              <div class="meta-card"><strong>Integración externa</strong><span id="externalModel"></span></div>
+            </div>
           </div>
           <div class="detail-section">
             <h3>Caso de uso en arquitectura OCI</h3>
@@ -514,22 +617,22 @@
 
   <script>
     const categories = [
-      { id: "compute", title: "Compute", icon: "CPU", color: "#2c5967", services: ["OCI Compute (VM & Bare Metal)", "Flexible Shapes (E4, E5, Ampere A1)", "GPU & HPC Instances", "Autoscaling", "Instance Pools", "Capacity Reservations", "Preemptible Instances"] },
-      { id: "containers", title: "Containers & Kubernetes", icon: "OKE", color: "#2c5967", services: ["OKE (Managed Kubernetes)", "OCIR (Container Registry)", "Virtual Nodes (Serverless)", "Kubernetes Add-ons", "Service Mesh", "DevOps Integration"] },
-      { id: "database", title: "Database", icon: "DB", color: "#ae562c", services: ["Autonomous Database (ATP, ADW)", "Exadata Cloud Service", "Exadata Cloud@Customer", "MySQL HeatWave", "NoSQL Database", "PostgreSQL (Managed)", "Data Safe", "Database Tools"] },
-      { id: "storage", title: "Storage", icon: "STO", color: "#759c6c", services: ["Object Storage", "Block Volume", "File Storage (FSS)", "Backup Service", "Replication (Cross-Region)", "Archive Storage", "Data Lifecycle Policies"] },
-      { id: "networking", title: "Networking", icon: "NET", color: "#2c5967", services: ["VCN", "Subnets (Public / Private)", "Load Balancer (L7 & L4)", "Network Load Balancer", "DNS & Traffic Management", "FastConnect", "VPN (IPSec)", "NAT Gateway", "Service Gateway", "Internet Gateway", "CDN"] },
-      { id: "integration", title: "Integration & Messaging", icon: "INT", color: "#ae562c", services: ["API Gateway", "Service Connector Hub", "Streaming (Kafka-Compatible)", "Events", "Notifications", "Queue", "Functions", "Oracle Integration Cloud (OIC)"] },
-      { id: "analytics", title: "Analytics & Data", icon: "ANA", color: "#c74634", services: ["Oracle Analytics Cloud (OAC)", "Autonomous Data Warehouse", "Data Integration", "Data Flow (Spark)", "GoldenGate", "OpenSearch", "DataWave Lakehouse"] },
-      { id: "ai", title: "AI & Machine Learning", icon: "AI", color: "#c74634", services: ["OCI Generative AI", "AI Services (Vision, Language, Speech, Document Understanding)", "Data Science (Notebooks, Jobs)", "Model Deployment & Endpoints", "AI Infrastructure (GPU: H100, A100)", "Vector Search"] },
-      { id: "developer", title: "Developer Experience", icon: "DEV", color: "#759c6c", services: ["OCI DevOps (CI/CD)", "Resource Manager (Terraform)", "Cloud Shell", "SDKs & CLI", "APM & Logging Analytics"] },
-      { id: "observability", title: "Observability & Operations", icon: "OBS", color: "#2c5967", services: ["Monitoring & Alarms", "Logging", "Notifications", "Operations Insights", "Application Performance Monitoring", "Stack Monitoring"] },
-      { id: "governance", title: "Governance & Management", icon: "GOV", color: "#ae562c", services: ["Compartments", "Policies", "Tagging", "Limits & Quotas", "Organizations (Tenancy Structure)", "Cost Tracking & Reporting", "Cloud Advisor"] },
-      { id: "frontend", title: "Front-End & Experience", icon: "WEB", color: "#312d2a", services: ["API Gateway", "WAF", "DNS", "Content Management", "Digital Assistant", "Visual Builder"] },
-      { id: "migration", title: "Migration & Hybrid Cloud", icon: "MIG", color: "#2c5967", services: ["Database Migration", "GoldenGate", "Data Transfer Service", "Data Sync", "Zero Downtime Migration (ZDM)", "Cloud@Customer (Exadata & Compute)", "Multicloud (Azure, AWS via partners)"] },
+      { id: "compute", title: "Compute", icon: "CPU", color: "#2c5967", services: ["OCI Compute (VM & Bare Metal)", "Flexible Shapes (E4, E5, Ampere A1)", "GPU & HPC Instances", "Autoscaling", "Instance Pools", "Capacity Reservations", "Preemptible Instances", "Container Instances", "Batch"] },
+      { id: "containers", title: "Containers & Kubernetes", icon: "OKE", color: "#2c5967", services: ["OKE (Managed Kubernetes)", "OCIR (Container Registry)", "Artifact Registry", "Virtual Nodes (Serverless)", "Kubernetes Add-ons", "Service Mesh", "DevOps Integration"] },
+      { id: "database", title: "Database & Data Management", icon: "DB", color: "#ae562c", services: ["Autonomous Database (ATP, ADW)", "Oracle Database 23ai", "Exadata Database Service", "Exadata Cloud@Customer", "Base Database Service", "MySQL HeatWave", "NoSQL Database", "PostgreSQL (Managed)", "Database Migration", "Recovery Service", "Data Safe", "Database Tools"] },
+      { id: "storage", title: "Storage", icon: "STO", color: "#759c6c", services: ["Object Storage", "Block Volume", "File Storage (FSS)", "Archive Storage", "Backup Service", "Replication (Cross-Region)", "Data Lifecycle Policies", "Storage Gateway"] },
+      { id: "networking", title: "Networking & Edge", icon: "NET", color: "#2c5967", services: ["VCN", "Subnets (Public / Private)", "Load Balancer (L7 & L4)", "Network Load Balancer", "DNS & Traffic Management", "FastConnect", "VPN (IPSec)", "DRG", "NAT Gateway", "Service Gateway", "Internet Gateway", "CDN", "Network Firewall"] },
+      { id: "integration", title: "Integration & Messaging", icon: "INT", color: "#ae562c", services: ["API Gateway", "Service Connector Hub", "Streaming (Kafka-Compatible)", "Events", "Notifications", "Queue", "Functions", "Oracle Integration Cloud (OIC)", "Email Delivery"] },
+      { id: "analytics", title: "Analytics & Data Platform", icon: "ANA", color: "#c74634", services: ["Oracle Analytics Cloud (OAC)", "Autonomous Data Warehouse", "Data Integration", "Data Flow (Spark)", "GoldenGate", "OpenSearch", "Data Catalog", "OCI Data Lakehouse"] },
+      { id: "ai", title: "Analytics and AI", icon: "AI", color: "#c74634", services: ["OCI Generative AI", "OCI Generative AI Agents", "AI Services (Vision, Language, Speech, Document Understanding)", "Data Science (Notebooks, Jobs)", "Model Deployment & Endpoints", "AI Infrastructure (GPU: H100, A100)", "Vector Search"] },
+      { id: "developer", title: "Application Development", icon: "DEV", color: "#759c6c", services: ["OCI DevOps (CI/CD)", "Resource Manager (Terraform)", "Cloud Shell", "SDKs & CLI", "APEX Application Development", "Visual Builder", "Application Dependency Management"] },
+      { id: "observability", title: "Observability & Management", icon: "OBS", color: "#2c5967", services: ["Monitoring & Alarms", "Logging", "Logging Analytics", "Notifications", "Operations Insights", "Application Performance Monitoring", "Stack Monitoring", "Health Checks", "Cloud Advisor"] },
+      { id: "governance", title: "Governance & Administration", icon: "GOV", color: "#ae562c", services: ["Compartments", "Policies", "Tagging", "Limits & Quotas", "Organizations (Tenancy Structure)", "Cost Tracking & Reporting", "Budgets", "Resource Scheduler"] },
+      { id: "frontend", title: "Front-End & Experience", icon: "WEB", color: "#312d2a", services: ["API Gateway", "WAF", "DNS", "Content Management", "Digital Assistant", "Visual Builder", "APEX Application Development"] },
+      { id: "migration", title: "Migration, Hybrid & Multicloud", icon: "MIG", color: "#2c5967", services: ["Database Migration", "GoldenGate", "Data Transfer Service", "Data Sync", "Zero Downtime Migration (ZDM)", "Cloud@Customer (Exadata & Compute)", "Oracle Database@Azure", "Oracle Database@Google Cloud", "Oracle Database@AWS"] },
       { id: "media", title: "Media Services", icon: "MED", color: "#c74634", services: ["Media Flow", "Media Streams", "Content Delivery (via CDN)"] },
-      { id: "serverless", title: "Serverless & Event-Driven", icon: "EVT", color: "#759c6c", services: ["Functions", "Events", "API Gateway", "Queue", "Streaming", "Autonomous DB (Serverless)", "OKE Virtual Nodes"] },
-      { id: "resilience", title: "Resilience & DR", icon: "DR", color: "#2c5967", services: ["Multi-AD / Multi-Region", "Cross-Region Replication", "Autonomous DB Data Guard", "Block Volume Replication", "Object Storage Replication", "Traffic Steering (Failover)", "Backup Policies"] }
+      { id: "serverless", title: "Serverless & Event-Driven", icon: "EVT", color: "#759c6c", services: ["Functions", "Events", "API Gateway", "Queue", "Streaming", "Autonomous DB (Serverless)", "OKE Virtual Nodes", "Container Instances"] },
+      { id: "resilience", title: "Resilience & DR", icon: "DR", color: "#2c5967", services: ["Multi-AD / Multi-Region", "Cross-Region Replication", "Autonomous DB Data Guard", "Block Volume Replication", "Object Storage Replication", "Traffic Steering (Failover)", "Backup Policies", "Full Stack Disaster Recovery"] }
     ];
 
     const securityServices = {
@@ -628,11 +731,76 @@
       const template = categoryTemplates[category.id] || categoryTemplates.compute;
       const override = detailOverrides[service] || [];
       const integrations = commonIntegrations[category.id] || commonIntegrations.compute;
+      const model = getIntegrationModel(service, category);
       return {
         category,
         description: override[0] || `${service} forma parte del dominio ${category.title}. ${template[0]}`,
         useCase: override[1] || template[1],
-        integrations: Array.from(new Set([...(integrations || []), ...category.services.filter((item) => item !== service).slice(0, 3)])).slice(0, 8)
+        integrations: Array.from(new Set([...(integrations || []), ...category.services.filter((item) => item !== service).slice(0, 3)])).slice(0, 8),
+        runModel: model.runModel,
+        externalModel: model.externalModel,
+        architectureNarrative: model.architectureNarrative
+      };
+    }
+
+    function getIntegrationModel(service, category) {
+      const nativeDatabase = ["Autonomous Database (ATP, ADW)", "Oracle Database 23ai", "Exadata Database Service", "Base Database Service", "NoSQL Database", "PostgreSQL (Managed)", "MySQL HeatWave"];
+      const multicloud = ["Oracle Database@Azure", "Oracle Database@Google Cloud", "Oracle Database@AWS"];
+      const hybrid = ["Exadata Cloud@Customer", "Cloud@Customer (Exadata & Compute)", "FastConnect", "VPN (IPSec)", "GoldenGate", "Data Transfer Service", "Storage Gateway"];
+      const openIntegration = ["API Gateway", "Streaming (Kafka-Compatible)", "Queue", "Events", "Functions", "Service Connector Hub", "Oracle Integration Cloud (OIC)", "GoldenGate", "Load Balancer (L7 & L4)", "Network Load Balancer", "DNS & Traffic Management", "WAF", "Object Storage"];
+
+      if (service === "Autonomous Database (ATP, ADW)") {
+        return {
+          runModel: "Servicio administrado nativo de OCI. No se instala manualmente como software sobre IaaS; Oracle opera parches, backups, escalamiento y alta disponibilidad.",
+          externalModel: "Aplicaciones externas, on-premises o multicloud pueden conectarse por red privada, VPN, FastConnect, endpoints, wallets y APIs, pero la plataforma autonoma corre como servicio administrado.",
+          architectureNarrative: "Usuarios y APIs entran por DNS, WAF y Load Balancer/API Gateway; la aplicacion corre en Compute, OKE o Functions; Autonomous Database conserva los datos y se protege con Vault, Data Safe, backups y observabilidad."
+        };
+      }
+
+      if (multicloud.includes(service)) {
+        return {
+          runModel: "Servicio Oracle Database entregado en una nube externa soportada, operado por Oracle con integracion nativa hacia OCI y el proveedor cloud correspondiente.",
+          externalModel: "Diseñado para arquitecturas multicloud: aplicaciones en Azure, Google Cloud o AWS pueden usar la base Oracle con baja latencia y gobierno Oracle.",
+          architectureNarrative: "La aplicacion puede vivir fuera de OCI, consumir datos Oracle en el proveedor externo y sincronizar identidad, red, observabilidad o datos hacia OCI segun el patron."
+        };
+      }
+
+      if (hybrid.includes(service)) {
+        return {
+          runModel: "Servicio para arquitectura hibrida: conecta OCI con data centers, sedes o nubes externas.",
+          externalModel: "Se integra con sistemas externos por enlaces privados, VPN, replicas de datos, transferencia o conectores administrados.",
+          architectureNarrative: "El servicio actua como puente entre la capa externa y OCI, permitiendo migracion, continuidad operativa, replica o intercambio seguro de datos."
+        };
+      }
+
+      if (nativeDatabase.includes(service)) {
+        return {
+          runModel: "Servicio administrado de base de datos en OCI; Oracle gestiona la plataforma, seguridad base y operacion del servicio.",
+          externalModel: "Se puede consumir desde aplicaciones externas mediante conectividad segura, pero no se instala como una pieza autonoma fuera del servicio administrado.",
+          architectureNarrative: "La aplicacion accede a la base por red privada o controlada, con secretos en Vault, monitoreo, backups y proteccion de datos sensibles."
+        };
+      }
+
+      if (openIntegration.includes(service) || category.id === "integration" || category.id === "networking") {
+        return {
+          runModel: "Servicio administrado de OCI pensado para exponer, conectar o mover trafico entre componentes.",
+          externalModel: "Puede integrarse con servicios externos mediante HTTP, eventos, APIs compatibles con Kafka, DNS, VPN, FastConnect, certificados o conectores.",
+          architectureNarrative: "El servicio queda en la capa de entrada, integracion o transporte: recibe solicitudes, aplica controles y enruta hacia aplicaciones, datos o servicios externos."
+        };
+      }
+
+      if (category.id === "ai") {
+        return {
+          runModel: "Servicio administrado de IA en OCI, conectado a datos, modelos, endpoints y controles de seguridad de la plataforma.",
+          externalModel: "Puede integrarse con aplicaciones externas mediante APIs, SDKs, endpoints privados, API Gateway o conectores hacia repositorios de datos.",
+          architectureNarrative: "Los usuarios consumen una app o API; la capa de aplicacion consulta datos, genera embeddings o llama modelos; las respuestas se auditan y monitorean en OCI."
+        };
+      }
+
+      return {
+        runModel: "Servicio nativo o administrado de OCI dentro del dominio " + category.title + ".",
+        externalModel: "Puede integrarse con sistemas externos cuando se expone por APIs, red privada, eventos, conectores o pipelines de datos; algunas capacidades solo operan como servicio OCI.",
+        architectureNarrative: "El servicio se ubica como bloque principal de la solucion y se combina con red, identidad, seguridad, observabilidad y datos para construir una arquitectura completa."
       };
     }
 
@@ -683,8 +851,46 @@
       $("detailTitle").textContent = service;
       $("detailDescription").textContent = detail.description;
       $("detailUseCase").textContent = detail.useCase;
+      $("runModel").textContent = detail.runModel;
+      $("externalModel").textContent = detail.externalModel;
+      $("architectureNarrative").textContent = detail.architectureNarrative;
       $("integrationPills").innerHTML = detail.integrations.map((item) => `<span class="pill">${item}</span>`).join("");
       renderMindMap(service, detail.integrations, category.color);
+      renderArchitectureFlow(service, detail, category.color);
+    }
+
+    function renderArchitectureFlow(service, detail, color) {
+      const layers = [
+        { label: "Usuarios / Apps externas", x: 9, y: 50, external: true },
+        { label: "DNS + WAF", x: 25, y: 27 },
+        { label: "Load Balancer / API Gateway", x: 25, y: 73 },
+        { label: service, x: 48, y: 50, core: true },
+        { label: detail.integrations[0] || "IAM", x: 70, y: 24 },
+        { label: detail.integrations[1] || "Vault", x: 70, y: 50 },
+        { label: detail.integrations[2] || "Monitoring", x: 70, y: 76 },
+        { label: "On-prem / Multicloud", x: 91, y: 50, external: true }
+      ];
+      const lines = [
+        [9, 50, 25, 27, "Entrada segura"],
+        [9, 50, 25, 73, "API / trafico"],
+        [25, 27, 48, 50, "Proteccion"],
+        [25, 73, 48, 50, "Enrutamiento"],
+        [48, 50, 70, 24, "Identidad"],
+        [48, 50, 70, 50, "Datos"],
+        [48, 50, 70, 76, "Monitoreo"],
+        [70, 50, 91, 50, "Externo"]
+      ];
+      const lineHtml = lines.map(([x1, y1, x2, y2, label]) => `
+        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-opacity="0.58" stroke-width="1.6" />
+        <text x="${(x1 + x2) / 2}" y="${(y1 + y2) / 2 - 2}" fill="${color}" opacity="0.82" font-size="3.2" text-anchor="middle">${label}</text>
+      `).join("");
+      const nodeHtml = layers.map((node) => `
+        <div class="arch-node ${node.core ? "core" : ""} ${node.external ? "external" : ""}" style="left:${node.x}%; top:${node.y}%">${node.label}</div>
+      `).join("");
+      $("architectureFlow").innerHTML = `
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lineHtml}</svg>
+        ${nodeHtml}
+      `;
     }
 
     function renderMindMap(service, integrations, color) {
