@@ -3,27 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OCI Architect Services 2026</title>
+  <title>OCI Architect Services</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #061a2f;
-      --bg-2: #082746;
-      --panel: rgba(8, 43, 74, 0.78);
-      --panel-strong: rgba(9, 36, 66, 0.94);
-      --line: rgba(174, 215, 255, 0.34);
-      --line-strong: rgba(174, 215, 255, 0.58);
-      --text: #f7fbff;
-      --muted: #b9d2eb;
-      --red: #ff5a4f;
-      --cyan: #26d9ff;
-      --green: #50e686;
-      --yellow: #ffd45a;
-      --purple: #b88cff;
-      --pink: #ff75b8;
-      --orange: #ff9b45;
-      --blue: #5a9bff;
-      --shadow: 0 18px 55px rgba(0, 0, 0, 0.32);
+      color-scheme: light;
+      --air: #fcfbfa;
+      --bark: #312d2a;
+      --oracle-red: #c74634;
+      --neutral-1: #f5f4f2;
+      --neutral-2: #dfdcd8;
+      --neutral-3: #9e9892;
+      --neutral-4: #70736e;
+      --ocean: #2c5967;
+      --ivy: #759c6c;
+      --sienna: #ae562c;
+      --bg: #fcfbfa;
+      --panel: rgba(252, 251, 250, 0.92);
+      --panel-strong: rgba(245, 244, 242, 0.98);
+      --line: rgba(49, 45, 42, 0.18);
+      --line-strong: rgba(49, 45, 42, 0.34);
+      --text: #312d2a;
+      --muted: #70736e;
+      --red: #c74634;
+      --cyan: #2c5967;
+      --green: #759c6c;
+      --yellow: #ae562c;
+      --purple: #7b60a8;
+      --pink: #c74634;
+      --orange: #ae562c;
+      --blue: #2c5967;
+      --shadow: 0 18px 42px rgba(49, 45, 42, 0.13);
     }
 
     * { box-sizing: border-box; }
@@ -35,9 +44,9 @@
       min-height: 100vh;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        linear-gradient(120deg, rgba(255, 90, 79, 0.10), transparent 34%),
-        linear-gradient(300deg, rgba(184, 140, 255, 0.14), transparent 40%),
-        linear-gradient(180deg, #05162a 0%, #06213b 45%, #041425 100%);
+        radial-gradient(circle at 12% 8%, rgba(199, 70, 52, 0.14), transparent 26%),
+        radial-gradient(circle at 82% 2%, rgba(44, 89, 103, 0.14), transparent 28%),
+        linear-gradient(180deg, #fcfbfa 0%, #f5f4f2 58%, #dfdcd8 100%);
       color: var(--text);
       overflow-x: hidden;
     }
@@ -48,8 +57,8 @@
       inset: 0;
       pointer-events: none;
       background:
-        repeating-linear-gradient(155deg, rgba(38, 217, 255, 0.10) 0 2px, transparent 2px 34px),
-        repeating-linear-gradient(25deg, rgba(255, 90, 79, 0.10) 0 2px, transparent 2px 46px);
+        repeating-linear-gradient(155deg, rgba(44, 89, 103, 0.08) 0 1px, transparent 1px 34px),
+        repeating-linear-gradient(25deg, rgba(199, 70, 52, 0.06) 0 1px, transparent 1px 46px);
       mask-image: linear-gradient(90deg, transparent 0%, black 18%, black 82%, transparent 100%);
       opacity: 0.45;
       animation: drift 28s linear infinite;
@@ -65,15 +74,15 @@
       z-index: 1;
       width: min(1520px, calc(100vw - 40px));
       margin: 0 auto;
-      padding: 36px 0 28px;
+      padding: 30px 0 28px;
     }
 
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 24px;
-      align-items: end;
-      margin-bottom: 26px;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 18px;
       min-width: 0;
     }
 
@@ -81,59 +90,18 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(38px, 5vw, 72px);
+      font-size: clamp(38px, 5vw, 68px);
       line-height: 0.95;
       letter-spacing: 0;
       font-weight: 950;
     }
 
-    h1 span { color: var(--red); }
-
-    .subtitle {
-      margin: 12px 0 0;
-      color: var(--text);
-      font-size: clamp(17px, 1.8vw, 25px);
-      font-weight: 650;
-    }
-
-    .principles {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .principle {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 34px;
-      padding: 0 12px;
-      border: 1px solid rgba(174, 215, 255, 0.36);
-      border-radius: 8px;
-      background: rgba(5, 22, 42, 0.48);
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .principle i {
-      width: 18px;
-      height: 18px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      color: var(--bg);
-      background: var(--cyan);
-      font-style: normal;
-      font-size: 11px;
-      font-weight: 950;
-    }
+    h1 span { color: var(--oracle-red); }
 
     .oracle-mark {
       justify-self: end;
-      text-align: right;
+      align-self: center;
+      text-align: center;
       color: var(--text);
       font-weight: 900;
       letter-spacing: 0;
@@ -141,8 +109,8 @@
 
     .oracle-mark strong {
       display: block;
-      color: var(--red);
-      font-size: 34px;
+      color: var(--oracle-red);
+      font-size: 38px;
       line-height: 1;
     }
 
@@ -161,14 +129,14 @@
       height: 46px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: rgba(5, 22, 42, 0.76);
+      background: var(--air);
       color: var(--text);
       padding: 0 14px;
       font-size: 15px;
       outline: none;
     }
 
-    .search::placeholder { color: rgba(185, 210, 235, 0.72); }
+    .search::placeholder { color: var(--neutral-4); }
 
     .category-tabs {
       display: flex;
@@ -184,7 +152,7 @@
       height: 46px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: rgba(5, 22, 42, 0.62);
+      background: var(--air);
       color: var(--text);
       padding: 0 13px;
       font-size: 13px;
@@ -195,19 +163,19 @@
 
     .tab.active {
       border-color: var(--cyan);
-      background: rgba(38, 217, 255, 0.16);
+      background: rgba(44, 89, 103, 0.12);
     }
 
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 380px;
+      grid-template-columns: minmax(0, 0.88fr) minmax(460px, 0.62fr);
       gap: 20px;
       align-items: start;
     }
 
     .service-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
 
@@ -216,8 +184,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background:
-        linear-gradient(180deg, rgba(16, 64, 107, 0.74), rgba(6, 31, 56, 0.86)),
-        rgba(8, 43, 74, 0.72);
+        linear-gradient(180deg, rgba(252, 251, 250, 0.98), rgba(245, 244, 242, 0.94));
       box-shadow: var(--shadow);
       padding: 17px;
       transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
@@ -289,16 +256,16 @@
     .service-button:hover,
     .service-button.active {
       color: var(--category-color);
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(44, 89, 103, 0.10);
     }
 
     .detail-panel {
       position: sticky;
       top: 18px;
-      border: 1px solid rgba(174, 215, 255, 0.44);
+      border: 1px solid var(--line);
       border-radius: 8px;
       background:
-        linear-gradient(180deg, rgba(11, 53, 92, 0.95), rgba(5, 24, 45, 0.97));
+        linear-gradient(180deg, rgba(252, 251, 250, 0.98), rgba(245, 244, 242, 0.97));
       box-shadow: var(--shadow);
       overflow: hidden;
     }
@@ -319,7 +286,7 @@
     .detail-title {
       margin: 8px 0 0;
       color: var(--active-color, var(--cyan));
-      font-size: 28px;
+      font-size: 34px;
       line-height: 1.05;
       font-weight: 950;
     }
@@ -341,18 +308,18 @@
     .detail-section p {
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.48;
+      font-size: 15px;
+      line-height: 1.55;
     }
 
     .mind-map {
       position: relative;
-      height: 290px;
+      height: 370px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background:
-        linear-gradient(135deg, rgba(38, 217, 255, 0.08), transparent),
-        rgba(4, 18, 34, 0.68);
+        linear-gradient(135deg, rgba(44, 89, 103, 0.08), transparent),
+        rgba(252, 251, 250, 0.72);
       overflow: hidden;
     }
 
@@ -372,7 +339,7 @@
       padding: 7px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: rgba(6, 31, 56, 0.94);
+      background: var(--air);
       color: var(--text);
       text-align: center;
       font-size: 11px;
@@ -386,7 +353,7 @@
       min-height: 58px;
       border-color: var(--active-color, var(--cyan));
       color: var(--active-color, var(--cyan));
-      background: rgba(5, 22, 42, 0.98);
+      background: var(--panel-strong);
       font-size: 13px;
     }
 
@@ -401,7 +368,7 @@
       border-radius: 8px;
       padding: 7px 9px;
       color: var(--text);
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(44, 89, 103, 0.08);
       font-size: 12px;
       font-weight: 800;
     }
@@ -410,14 +377,14 @@
       margin-top: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: rgba(8, 43, 74, 0.72);
+      background: var(--panel);
       padding: 14px 16px;
       box-shadow: var(--shadow);
     }
 
     .innovation-strip h2 {
       margin: 0 0 12px;
-      color: #ffb8cd;
+      color: var(--oracle-red);
       font-size: 18px;
     }
 
@@ -431,7 +398,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 11px;
-      background: rgba(5, 22, 42, 0.64);
+      background: var(--air);
       color: var(--text);
       font-size: 12px;
       line-height: 1.3;
@@ -450,7 +417,7 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 24px;
-      background: rgba(8, 43, 74, 0.72);
+      background: var(--panel);
       color: var(--muted);
       font-weight: 800;
     }
@@ -466,7 +433,6 @@
       .page { width: min(720px, calc(100vw - 22px)); padding-top: 22px; }
       .hero { grid-template-columns: 1fr; }
       h1 { font-size: clamp(31px, 10vw, 42px); line-height: 1.02; }
-      .subtitle { max-width: 330px; font-size: 15px; line-height: 1.3; white-space: normal; overflow-wrap: break-word; }
       .oracle-mark { justify-self: start; text-align: left; }
       .controls { grid-template-columns: 1fr; }
       .service-grid { grid-template-columns: 1fr; }
@@ -480,15 +446,7 @@
   <div class="page">
     <header class="hero">
       <div>
-        <h1><span>OCI</span> ARCHITECT SERVICES 2026</h1>
-        <p class="subtitle">Build, Secure & Innovate with Oracle Cloud Infrastructure</p>
-        <div class="principles">
-          <div class="principle"><i>P</i>Performance First</div>
-          <div class="principle"><i>R</i>Resilient by Design</div>
-          <div class="principle"><i>C</i>Cost Smart</div>
-          <div class="principle"><i>O</i>Open & Interoperable</div>
-          <div class="principle"><i>S</i>Sustainable Cloud</div>
-        </div>
+        <h1><span>OCI</span> ARCHITECT SERVICES</h1>
       </div>
       <div class="oracle-mark">
         <strong>ORACLE</strong>
@@ -512,7 +470,7 @@
         <div class="detail-body">
           <div class="mind-map" id="mindMap"></div>
           <div class="detail-section">
-            <h3>Que es</h3>
+            <h3>Qué es</h3>
             <p id="detailDescription"></p>
           </div>
           <div class="detail-section">
@@ -535,29 +493,29 @@
 
   <script>
     const categories = [
-      { id: "compute", title: "Compute", icon: "CPU", color: "#55b8ff", services: ["OCI Compute (VM & Bare Metal)", "Flexible Shapes (E4, E5, Ampere A1)", "GPU & HPC Instances", "Autoscaling", "Instance Pools", "Capacity Reservations", "Preemptible Instances"] },
-      { id: "containers", title: "Containers & Kubernetes", icon: "OKE", color: "#37d4ff", services: ["OKE (Managed Kubernetes)", "OCIR (Container Registry)", "Virtual Nodes (Serverless)", "Kubernetes Add-ons", "Service Mesh", "DevOps Integration"] },
-      { id: "database", title: "Database", icon: "DB", color: "#c48cff", services: ["Autonomous Database (ATP, ADW)", "Exadata Cloud Service", "Exadata Cloud@Customer", "MySQL HeatWave", "NoSQL Database", "PostgreSQL (Managed)", "Data Safe", "Database Tools"] },
-      { id: "storage", title: "Storage", icon: "STO", color: "#55e68a", services: ["Object Storage", "Block Volume", "File Storage (FSS)", "Backup Service", "Replication (Cross-Region)", "Archive Storage", "Data Lifecycle Policies"] },
-      { id: "networking", title: "Networking", icon: "NET", color: "#3be2e9", services: ["VCN", "Subnets (Public / Private)", "Load Balancer (L7 & L4)", "Network Load Balancer", "DNS & Traffic Management", "FastConnect", "VPN (IPSec)", "NAT Gateway", "Service Gateway", "Internet Gateway", "CDN"] },
-      { id: "integration", title: "Integration & Messaging", icon: "INT", color: "#ffd45a", services: ["API Gateway", "Service Connector Hub", "Streaming (Kafka-Compatible)", "Events", "Notifications", "Queue", "Functions", "Oracle Integration Cloud (OIC)"] },
-      { id: "analytics", title: "Analytics & Data", icon: "ANA", color: "#ff75b8", services: ["Oracle Analytics Cloud (OAC)", "Autonomous Data Warehouse", "Data Integration", "Data Flow (Spark)", "GoldenGate", "OpenSearch", "DataWave Lakehouse"] },
-      { id: "ai", title: "AI & Machine Learning", icon: "AI", color: "#ff6a5f", services: ["OCI Generative AI", "AI Services (Vision, Language, Speech, Document Understanding)", "Data Science (Notebooks, Jobs)", "Model Deployment & Endpoints", "AI Infrastructure (GPU: H100, A100)", "Vector Search"] },
-      { id: "developer", title: "Developer Experience", icon: "DEV", color: "#67f58a", services: ["OCI DevOps (CI/CD)", "Resource Manager (Terraform)", "Cloud Shell", "SDKs & CLI", "APM & Logging Analytics"] },
-      { id: "observability", title: "Observability & Operations", icon: "OBS", color: "#73dbff", services: ["Monitoring & Alarms", "Logging", "Notifications", "Operations Insights", "Application Performance Monitoring", "Stack Monitoring"] },
-      { id: "governance", title: "Governance & Management", icon: "GOV", color: "#ff9b45", services: ["Compartments", "Policies", "Tagging", "Limits & Quotas", "Organizations (Tenancy Structure)", "Cost Tracking & Reporting", "Cloud Advisor"] },
-      { id: "frontend", title: "Front-End & Experience", icon: "WEB", color: "#bd8dff", services: ["API Gateway", "WAF", "DNS", "Content Management", "Digital Assistant", "Visual Builder"] },
-      { id: "migration", title: "Migration & Hybrid Cloud", icon: "MIG", color: "#5a9bff", services: ["Database Migration", "GoldenGate", "Data Transfer Service", "Data Sync", "Zero Downtime Migration (ZDM)", "Cloud@Customer (Exadata & Compute)", "Multicloud (Azure, AWS via partners)"] },
-      { id: "media", title: "Media Services", icon: "MED", color: "#ff75b8", services: ["Media Flow", "Media Streams", "Content Delivery (via CDN)"] },
-      { id: "serverless", title: "Serverless & Event-Driven", icon: "EVT", color: "#39e6ff", services: ["Functions", "Events", "API Gateway", "Queue", "Streaming", "Autonomous DB (Serverless)", "OKE Virtual Nodes"] },
-      { id: "resilience", title: "Resilience & DR", icon: "DR", color: "#76a4ff", services: ["Multi-AD / Multi-Region", "Cross-Region Replication", "Autonomous DB Data Guard", "Block Volume Replication", "Object Storage Replication", "Traffic Steering (Failover)", "Backup Policies"] }
+      { id: "compute", title: "Compute", icon: "CPU", color: "#2c5967", services: ["OCI Compute (VM & Bare Metal)", "Flexible Shapes (E4, E5, Ampere A1)", "GPU & HPC Instances", "Autoscaling", "Instance Pools", "Capacity Reservations", "Preemptible Instances"] },
+      { id: "containers", title: "Containers & Kubernetes", icon: "OKE", color: "#2c5967", services: ["OKE (Managed Kubernetes)", "OCIR (Container Registry)", "Virtual Nodes (Serverless)", "Kubernetes Add-ons", "Service Mesh", "DevOps Integration"] },
+      { id: "database", title: "Database", icon: "DB", color: "#ae562c", services: ["Autonomous Database (ATP, ADW)", "Exadata Cloud Service", "Exadata Cloud@Customer", "MySQL HeatWave", "NoSQL Database", "PostgreSQL (Managed)", "Data Safe", "Database Tools"] },
+      { id: "storage", title: "Storage", icon: "STO", color: "#759c6c", services: ["Object Storage", "Block Volume", "File Storage (FSS)", "Backup Service", "Replication (Cross-Region)", "Archive Storage", "Data Lifecycle Policies"] },
+      { id: "networking", title: "Networking", icon: "NET", color: "#2c5967", services: ["VCN", "Subnets (Public / Private)", "Load Balancer (L7 & L4)", "Network Load Balancer", "DNS & Traffic Management", "FastConnect", "VPN (IPSec)", "NAT Gateway", "Service Gateway", "Internet Gateway", "CDN"] },
+      { id: "integration", title: "Integration & Messaging", icon: "INT", color: "#ae562c", services: ["API Gateway", "Service Connector Hub", "Streaming (Kafka-Compatible)", "Events", "Notifications", "Queue", "Functions", "Oracle Integration Cloud (OIC)"] },
+      { id: "analytics", title: "Analytics & Data", icon: "ANA", color: "#c74634", services: ["Oracle Analytics Cloud (OAC)", "Autonomous Data Warehouse", "Data Integration", "Data Flow (Spark)", "GoldenGate", "OpenSearch", "DataWave Lakehouse"] },
+      { id: "ai", title: "AI & Machine Learning", icon: "AI", color: "#c74634", services: ["OCI Generative AI", "AI Services (Vision, Language, Speech, Document Understanding)", "Data Science (Notebooks, Jobs)", "Model Deployment & Endpoints", "AI Infrastructure (GPU: H100, A100)", "Vector Search"] },
+      { id: "developer", title: "Developer Experience", icon: "DEV", color: "#759c6c", services: ["OCI DevOps (CI/CD)", "Resource Manager (Terraform)", "Cloud Shell", "SDKs & CLI", "APM & Logging Analytics"] },
+      { id: "observability", title: "Observability & Operations", icon: "OBS", color: "#2c5967", services: ["Monitoring & Alarms", "Logging", "Notifications", "Operations Insights", "Application Performance Monitoring", "Stack Monitoring"] },
+      { id: "governance", title: "Governance & Management", icon: "GOV", color: "#ae562c", services: ["Compartments", "Policies", "Tagging", "Limits & Quotas", "Organizations (Tenancy Structure)", "Cost Tracking & Reporting", "Cloud Advisor"] },
+      { id: "frontend", title: "Front-End & Experience", icon: "WEB", color: "#312d2a", services: ["API Gateway", "WAF", "DNS", "Content Management", "Digital Assistant", "Visual Builder"] },
+      { id: "migration", title: "Migration & Hybrid Cloud", icon: "MIG", color: "#2c5967", services: ["Database Migration", "GoldenGate", "Data Transfer Service", "Data Sync", "Zero Downtime Migration (ZDM)", "Cloud@Customer (Exadata & Compute)", "Multicloud (Azure, AWS via partners)"] },
+      { id: "media", title: "Media Services", icon: "MED", color: "#c74634", services: ["Media Flow", "Media Streams", "Content Delivery (via CDN)"] },
+      { id: "serverless", title: "Serverless & Event-Driven", icon: "EVT", color: "#759c6c", services: ["Functions", "Events", "API Gateway", "Queue", "Streaming", "Autonomous DB (Serverless)", "OKE Virtual Nodes"] },
+      { id: "resilience", title: "Resilience & DR", icon: "DR", color: "#2c5967", services: ["Multi-AD / Multi-Region", "Cross-Region Replication", "Autonomous DB Data Guard", "Block Volume Replication", "Object Storage Replication", "Traffic Steering (Failover)", "Backup Policies"] }
     ];
 
     const securityServices = {
       id: "security",
       title: "Security & Trust",
       icon: "SEC",
-      color: "#f4f7ff",
+      color: "#312d2a",
       services: ["Identity & Access (IAM)", "Cloud Guard", "Vault", "WAF", "Shield (DDoS Protection)", "Bastion", "Security Zones", "Data Safe", "Vulnerability Scanning", "Certificates Service", "Audit", "Compliance", "Threat Intelligence"]
     };
 
@@ -698,7 +656,7 @@
             `).join("")}
           </div>
         </article>
-      `).join("") : `<div class="empty">No encontre servicios para ese filtro.</div>`;
+      `).join("") : `<div class="empty">No encontré servicios para ese filtro.</div>`;
 
       document.querySelectorAll(".service-button").forEach((button) => {
         button.addEventListener("click", () => selectService(button.dataset.service));
