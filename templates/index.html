@@ -268,6 +268,7 @@
     .detail-panel {
       position: sticky;
       top: 18px;
+      max-height: calc(100vh - 36px);
       border: 1px solid var(--line);
       border-radius: 8px;
       background:
@@ -275,6 +276,8 @@
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     .detail-top {
@@ -302,6 +305,19 @@
       padding: 18px;
       display: grid;
       gap: 16px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+
+    .detail-body::-webkit-scrollbar { width: 10px; }
+
+    .detail-body::-webkit-scrollbar-track { background: rgba(49, 45, 42, 0.06); }
+
+    .detail-body::-webkit-scrollbar-thumb {
+      background: rgba(44, 89, 103, 0.36);
+      border-radius: 999px;
+      border: 2px solid rgba(252, 251, 250, 0.78);
     }
 
     .detail-section h3 {
@@ -318,6 +334,16 @@
       font-size: 15px;
       line-height: 1.55;
     }
+
+    .use-case-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .use-case-list li { margin: 0 0 7px; }
 
     .mind-map {
       position: relative;
@@ -362,76 +388,6 @@
       color: var(--active-color, var(--cyan));
       background: var(--panel-strong);
       font-size: 13px;
-    }
-
-    .architecture-flow {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background:
-        linear-gradient(135deg, rgba(44, 89, 103, 0.08), transparent),
-        rgba(252, 251, 250, 0.78);
-      padding: 12px;
-      overflow: hidden;
-    }
-
-    .arch-canvas {
-      position: relative;
-      min-height: 285px;
-    }
-
-    .arch-canvas svg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .arch-node {
-      position: absolute;
-      display: grid;
-      place-items: center;
-      width: 118px;
-      min-height: 48px;
-      padding: 8px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(252, 251, 250, 0.94);
-      color: var(--text);
-      text-align: center;
-      font-size: 11px;
-      line-height: 1.15;
-      font-weight: 850;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 10px 22px rgba(49, 45, 42, 0.08);
-    }
-
-    .arch-node.core {
-      width: 142px;
-      min-height: 58px;
-      border-color: var(--active-color, var(--oracle-red));
-      background: rgba(199, 70, 52, 0.10);
-      color: var(--active-color, var(--oracle-red));
-      font-size: 12px;
-    }
-
-    .arch-node.external {
-      border-color: rgba(117, 156, 108, 0.62);
-      background: rgba(117, 156, 108, 0.12);
-    }
-
-    .architecture-flow h3 {
-      margin: 0 0 9px;
-      color: var(--text);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0;
-    }
-
-    .architecture-flow p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.48;
     }
 
     .meta-grid {
@@ -529,7 +485,8 @@
 
     @media (max-width: 1180px) {
       .layout { grid-template-columns: 1fr; }
-      .detail-panel { position: relative; top: 0; }
+      .detail-panel { position: relative; top: 0; max-height: none; }
+      .detail-body { overflow: visible; }
       .service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .innovation-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
@@ -545,7 +502,6 @@
       .category-card { min-height: auto; }
       .mind-map { height: 340px; }
       .meta-grid { grid-template-columns: 1fr; }
-      .arch-canvas { min-height: 360px; }
     }
   </style>
 </head>
@@ -581,25 +537,26 @@
         </div>
         <div class="detail-body">
           <div class="mind-map" id="mindMap"></div>
-          <div class="architecture-flow">
-            <h3>Arquitectura integrada</h3>
-            <div class="arch-canvas" id="architectureFlow"></div>
-            <p id="architectureNarrative"></p>
-          </div>
           <div class="detail-section">
-            <h3>Qué es</h3>
+            <h3>Descripción del producto</h3>
             <p id="detailDescription"></p>
           </div>
           <div class="detail-section">
-            <h3>Modelo de ejecución e integración externa</h3>
+            <h3>Modelo de despliegue e integración</h3>
             <div class="meta-grid">
-              <div class="meta-card"><strong>Modelo</strong><span id="runModel"></span></div>
+              <div class="meta-card"><strong>Nativo de OCI</strong><span id="nativeModel"></span></div>
+              <div class="meta-card"><strong>Otras nubes</strong><span id="cloudModel"></span></div>
+              <div class="meta-card"><strong>Servicios locales</strong><span id="localModel"></span></div>
               <div class="meta-card"><strong>Integración externa</strong><span id="externalModel"></span></div>
             </div>
           </div>
           <div class="detail-section">
             <h3>Caso de uso en arquitectura OCI</h3>
             <p id="detailUseCase"></p>
+          </div>
+          <div class="detail-section">
+            <h3>Casos de uso comunes</h3>
+            <ul class="use-case-list" id="useCaseList"></ul>
           </div>
           <div class="detail-section">
             <h3>Se integra con</h3>
@@ -734,13 +691,44 @@
       const model = getIntegrationModel(service, category);
       return {
         category,
-        description: override[0] || `${service} forma parte del dominio ${category.title}. ${template[0]}`,
+        description: getExpandedDescription(service, category, override[0] || `${service} forma parte del dominio ${category.title}. ${template[0]}`),
         useCase: override[1] || template[1],
+        useCases: getUseCases(service, category),
         integrations: Array.from(new Set([...(integrations || []), ...category.services.filter((item) => item !== service).slice(0, 3)])).slice(0, 8),
-        runModel: model.runModel,
+        nativeModel: model.nativeModel,
+        cloudModel: model.cloudModel,
+        localModel: model.localModel,
         externalModel: model.externalModel,
-        architectureNarrative: model.architectureNarrative
       };
+    }
+
+    function getExpandedDescription(service, category, baseDescription) {
+      const focused = {
+        "OCI Generative AI": "OCI Generative AI permite consumir modelos fundacionales administrados para generación de texto, resúmenes, clasificación, embeddings y asistentes empresariales. En una arquitectura OCI normalmente se combina con Object Storage, Vector Search, API Gateway, Vault, Logging y controles IAM para construir soluciones de IA generativa con datos corporativos.",
+        "Autonomous Database (ATP, ADW)": "Autonomous Database es una base de datos Oracle administrada y automatizada para cargas transaccionales, analíticas o mixtas. Automatiza tareas operativas como parches, backups, tuning y escalamiento, reduciendo trabajo de administración y permitiendo que las aplicaciones se enfoquen en el modelo de datos, seguridad y lógica de negocio.",
+        "OKE (Managed Kubernetes)": "OKE es el servicio administrado de Kubernetes en OCI para desplegar microservicios, APIs, workers y plataformas cloud native. Se integra con OCIR, Load Balancer, Vault, Logging, Monitoring, redes privadas y pipelines DevOps para operar aplicaciones en contenedores con escalamiento y gobierno.",
+        "Object Storage": "Object Storage ofrece almacenamiento durable para objetos, documentos, imágenes, datasets, backups y archivos de aplicación. Es una pieza frecuente en arquitecturas de datos, analítica, IA generativa, recuperación ante desastres y distribución de contenido.",
+        "API Gateway": "API Gateway publica APIs HTTP administradas con rutas, políticas, autenticación, throttling y observabilidad. Es útil para exponer Functions, microservicios en OKE, backends en Compute o integraciones empresariales sin abrir directamente los servicios internos.",
+        "Logging Analytics": "Logging Analytics centraliza, analiza y correlaciona logs de aplicaciones, infraestructura y servicios OCI. Ayuda a detectar errores, patrones operativos, anomalías y causas raíz en arquitecturas distribuidas."
+      };
+      return focused[service] || `${baseDescription} En una arquitectura empresarial se evalúa junto con identidad, red, seguridad, observabilidad, continuidad y costos para decidir si debe operar como servicio central, capa de integración o componente de soporte.`;
+    }
+
+    function getUseCases(service, category) {
+      const useCases = {
+        "OCI Generative AI": ["Asistentes empresariales con RAG sobre documentos internos.", "Generación de resúmenes, clasificación y extracción de información.", "Búsqueda semántica usando embeddings y Vector Search.", "Automatización de respuestas para soporte, ventas o operaciones."],
+        "Autonomous Database (ATP, ADW)": ["Backend transaccional para aplicaciones web y APIs.", "Data warehouse administrado para analítica y reportes.", "Base de datos para aplicaciones APEX o microservicios.", "Repositorio seguro para datos sensibles con Data Safe y Vault."],
+        "OKE (Managed Kubernetes)": ["Modernización de aplicaciones en microservicios.", "Plataformas internas con despliegue continuo.", "APIs escalables detrás de Load Balancer o API Gateway.", "Workers y procesos batch contenerizados."],
+        "Object Storage": ["Repositorio de documentos para RAG e IA generativa.", "Backups, exportaciones y archivos históricos.", "Data lake para analítica y machine learning.", "Almacenamiento de imágenes, reportes y archivos de aplicaciones."],
+        "API Gateway": ["Publicación segura de APIs hacia clientes externos.", "Entrada para Functions y servicios serverless.", "Fachada para microservicios en OKE o Compute.", "Control de rutas, autenticación y límites de consumo."],
+        "Logging Analytics": ["Análisis centralizado de logs de aplicaciones y servicios.", "Detección de errores recurrentes y anomalías.", "Correlación de eventos para troubleshooting.", "Paneles operativos para equipos SRE y soporte."]
+      };
+      if (useCases[service]) return useCases[service];
+      if (category.id === "ai") return ["Soluciones inteligentes con modelos, embeddings o inferencia.", "Automatización de procesos que requieren análisis de texto, documentos, voz o imágenes.", "Integración de IA en aplicaciones internas mediante APIs.", "Gobierno y monitoreo de capacidades de IA dentro de OCI."];
+      if (category.id === "database") return ["Persistencia de datos para aplicaciones empresariales.", "Analítica, reporting o consolidación de datos.", "Migración y modernización de bases existentes.", "Alta disponibilidad, backup y recuperación ante fallos."];
+      if (category.id === "networking") return ["Conectividad segura entre usuarios, aplicaciones y servicios.", "Segmentación de red con subnets, gateways y políticas.", "Acceso híbrido con VPN o FastConnect.", "Exposición controlada de servicios públicos y privados."];
+      if (category.id === "integration" || category.id === "serverless") return ["Integración de aplicaciones mediante APIs, eventos y colas.", "Automatización serverless ante cambios de datos o eventos.", "Desacoplamiento entre sistemas productores y consumidores.", "Conexión con servicios externos y aplicaciones locales."];
+      return ["Construcción de arquitecturas OCI más seguras y gobernadas.", "Integración con red, identidad, observabilidad y costos.", "Modernización o automatización de cargas empresariales.", "Soporte a aplicaciones distribuidas, híbridas o multicloud."];
     }
 
     function getIntegrationModel(service, category) {
@@ -751,56 +739,63 @@
 
       if (service === "Autonomous Database (ATP, ADW)") {
         return {
-          runModel: "Servicio administrado nativo de OCI. No se instala manualmente como software sobre IaaS; Oracle opera parches, backups, escalamiento y alta disponibilidad.",
-          externalModel: "Aplicaciones externas, on-premises o multicloud pueden conectarse por red privada, VPN, FastConnect, endpoints, wallets y APIs, pero la plataforma autonoma corre como servicio administrado.",
-          architectureNarrative: "Usuarios y APIs entran por DNS, WAF y Load Balancer/API Gateway; la aplicacion corre en Compute, OKE o Functions; Autonomous Database conserva los datos y se protege con Vault, Data Safe, backups y observabilidad."
+          nativeModel: "Sí. Es un servicio administrado nativo de OCI; Oracle opera parches, backups, escalamiento y alta disponibilidad.",
+          cloudModel: "No se instala manualmente como software sobre IaaS en otras nubes. Para multicloud se usan opciones Oracle Database@Azure, @Google Cloud o @AWS cuando aplican.",
+          localModel: "No se instala como Autonomous Database local. Para entornos locales se evalúa Oracle Database, Exadata Cloud@Customer o integración por red privada.",
+          externalModel: "Aplicaciones externas, on-premises o multicloud pueden conectarse por VPN, FastConnect, endpoints privados, wallets, drivers y APIs."
         };
       }
 
       if (multicloud.includes(service)) {
         return {
-          runModel: "Servicio Oracle Database entregado en una nube externa soportada, operado por Oracle con integracion nativa hacia OCI y el proveedor cloud correspondiente.",
-          externalModel: "Diseñado para arquitecturas multicloud: aplicaciones en Azure, Google Cloud o AWS pueden usar la base Oracle con baja latencia y gobierno Oracle.",
-          architectureNarrative: "La aplicacion puede vivir fuera de OCI, consumir datos Oracle en el proveedor externo y sincronizar identidad, red, observabilidad o datos hacia OCI segun el patron."
+          nativeModel: "Es un servicio Oracle operado con gobierno Oracle, conectado al ecosistema OCI.",
+          cloudModel: "Sí. Está diseñado para ejecutarse en la nube indicada por el servicio, como Azure, Google Cloud o AWS.",
+          localModel: "No es un producto para instalar en servidores locales; para local se usan patrones híbridos como Exadata Cloud@Customer o conectividad privada.",
+          externalModel: "Permite aplicaciones en nubes externas con conectividad privada, baja latencia y operación Oracle."
         };
       }
 
       if (hybrid.includes(service)) {
         return {
-          runModel: "Servicio para arquitectura hibrida: conecta OCI con data centers, sedes o nubes externas.",
-          externalModel: "Se integra con sistemas externos por enlaces privados, VPN, replicas de datos, transferencia o conectores administrados.",
-          architectureNarrative: "El servicio actua como puente entre la capa externa y OCI, permitiendo migracion, continuidad operativa, replica o intercambio seguro de datos."
+          nativeModel: "Sí, se administra desde OCI o como extensión controlada por Oracle según el servicio.",
+          cloudModel: "Puede participar en arquitecturas multicloud, principalmente como conectividad, migración, replicación o extensión híbrida.",
+          localModel: "Sí. Está pensado para conectar o extender OCI hacia data centers, sedes o plataformas locales.",
+          externalModel: "Se integra por enlaces privados, VPN, replicación de datos, transferencia administrada o conectores."
         };
       }
 
       if (nativeDatabase.includes(service)) {
         return {
-          runModel: "Servicio administrado de base de datos en OCI; Oracle gestiona la plataforma, seguridad base y operacion del servicio.",
-          externalModel: "Se puede consumir desde aplicaciones externas mediante conectividad segura, pero no se instala como una pieza autonoma fuera del servicio administrado.",
-          architectureNarrative: "La aplicacion accede a la base por red privada o controlada, con secretos en Vault, monitoreo, backups y proteccion de datos sensibles."
+          nativeModel: "Sí. Es un servicio administrado de base de datos en OCI.",
+          cloudModel: "Normalmente no se instala como servicio administrado OCI dentro de IaaS de otra nube; se consume por conectividad segura o alternativas Oracle Database multicloud.",
+          localModel: "Puede integrarse con sistemas locales por VPN, FastConnect, GoldenGate, conectores o migración, pero el servicio administrado corre en OCI.",
+          externalModel: "Aplicaciones externas pueden conectarse con red privada, drivers, wallets, APIs y controles de seguridad."
         };
       }
 
       if (openIntegration.includes(service) || category.id === "integration" || category.id === "networking") {
         return {
-          runModel: "Servicio administrado de OCI pensado para exponer, conectar o mover trafico entre componentes.",
-          externalModel: "Puede integrarse con servicios externos mediante HTTP, eventos, APIs compatibles con Kafka, DNS, VPN, FastConnect, certificados o conectores.",
-          architectureNarrative: "El servicio queda en la capa de entrada, integracion o transporte: recibe solicitudes, aplica controles y enruta hacia aplicaciones, datos o servicios externos."
+          nativeModel: "Sí. Es un servicio administrado de OCI para red, entrada, eventos o integración.",
+          cloudModel: "Puede conectarse con otras nubes mediante APIs, DNS, VPN, FastConnect, eventos o endpoints publicados.",
+          localModel: "Sí. Es común integrarlo con data centers o aplicaciones locales mediante red privada, conectores o APIs.",
+          externalModel: "Soporta integración por HTTP, eventos, APIs compatibles, DNS, certificados, mensajería o conectores."
         };
       }
 
       if (category.id === "ai") {
         return {
-          runModel: "Servicio administrado de IA en OCI, conectado a datos, modelos, endpoints y controles de seguridad de la plataforma.",
-          externalModel: "Puede integrarse con aplicaciones externas mediante APIs, SDKs, endpoints privados, API Gateway o conectores hacia repositorios de datos.",
-          architectureNarrative: "Los usuarios consumen una app o API; la capa de aplicacion consulta datos, genera embeddings o llama modelos; las respuestas se auditan y monitorean en OCI."
+          nativeModel: "Sí. Es un servicio de IA administrado en OCI.",
+          cloudModel: "No se despliega como servicio administrado dentro de otra nube, pero puede ser consumido desde aplicaciones multicloud mediante APIs seguras.",
+          localModel: "Puede integrarse con datos o aplicaciones locales por conectividad privada, API Gateway, SDKs o pipelines de datos.",
+          externalModel: "Se consume por APIs, SDKs, endpoints privados, conectores de datos y servicios de integración."
         };
       }
 
       return {
-        runModel: "Servicio nativo o administrado de OCI dentro del dominio " + category.title + ".",
-        externalModel: "Puede integrarse con sistemas externos cuando se expone por APIs, red privada, eventos, conectores o pipelines de datos; algunas capacidades solo operan como servicio OCI.",
-        architectureNarrative: "El servicio se ubica como bloque principal de la solucion y se combina con red, identidad, seguridad, observabilidad y datos para construir una arquitectura completa."
+        nativeModel: "Sí. Es un servicio nativo o administrado de OCI dentro del dominio " + category.title + ".",
+        cloudModel: "Depende del servicio: normalmente corre en OCI, pero puede integrarse con otras nubes por red, APIs, eventos o conectores.",
+        localModel: "Puede integrarse con servicios locales cuando existe conectividad, APIs, agentes, conectores o flujos de datos.",
+        externalModel: "Se integra con sistemas externos mediante APIs, red privada, eventos, conectores o pipelines de datos."
       };
     }
 
@@ -851,46 +846,13 @@
       $("detailTitle").textContent = service;
       $("detailDescription").textContent = detail.description;
       $("detailUseCase").textContent = detail.useCase;
-      $("runModel").textContent = detail.runModel;
+      $("useCaseList").innerHTML = detail.useCases.map((item) => `<li>${item}</li>`).join("");
+      $("nativeModel").textContent = detail.nativeModel;
+      $("cloudModel").textContent = detail.cloudModel;
+      $("localModel").textContent = detail.localModel;
       $("externalModel").textContent = detail.externalModel;
-      $("architectureNarrative").textContent = detail.architectureNarrative;
       $("integrationPills").innerHTML = detail.integrations.map((item) => `<span class="pill">${item}</span>`).join("");
       renderMindMap(service, detail.integrations, category.color);
-      renderArchitectureFlow(service, detail, category.color);
-    }
-
-    function renderArchitectureFlow(service, detail, color) {
-      const layers = [
-        { label: "Usuarios / Apps externas", x: 9, y: 50, external: true },
-        { label: "DNS + WAF", x: 25, y: 27 },
-        { label: "Load Balancer / API Gateway", x: 25, y: 73 },
-        { label: service, x: 48, y: 50, core: true },
-        { label: detail.integrations[0] || "IAM", x: 70, y: 24 },
-        { label: detail.integrations[1] || "Vault", x: 70, y: 50 },
-        { label: detail.integrations[2] || "Monitoring", x: 70, y: 76 },
-        { label: "On-prem / Multicloud", x: 91, y: 50, external: true }
-      ];
-      const lines = [
-        [9, 50, 25, 27, "Entrada segura"],
-        [9, 50, 25, 73, "API / trafico"],
-        [25, 27, 48, 50, "Proteccion"],
-        [25, 73, 48, 50, "Enrutamiento"],
-        [48, 50, 70, 24, "Identidad"],
-        [48, 50, 70, 50, "Datos"],
-        [48, 50, 70, 76, "Monitoreo"],
-        [70, 50, 91, 50, "Externo"]
-      ];
-      const lineHtml = lines.map(([x1, y1, x2, y2, label]) => `
-        <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-opacity="0.58" stroke-width="1.6" />
-        <text x="${(x1 + x2) / 2}" y="${(y1 + y2) / 2 - 2}" fill="${color}" opacity="0.82" font-size="3.2" text-anchor="middle">${label}</text>
-      `).join("");
-      const nodeHtml = layers.map((node) => `
-        <div class="arch-node ${node.core ? "core" : ""} ${node.external ? "external" : ""}" style="left:${node.x}%; top:${node.y}%">${node.label}</div>
-      `).join("");
-      $("architectureFlow").innerHTML = `
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lineHtml}</svg>
-        ${nodeHtml}
-      `;
     }
 
     function renderMindMap(service, integrations, color) {
