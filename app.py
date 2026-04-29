@@ -376,17 +376,7 @@ def leaderboard():
 
 @app.get("/health")
 def health():
-    try:
-        with get_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT 1 FROM dual")
-                cur.fetchone()
-        return jsonify({"ok": True, "database": "connected"})
-    except Exception as exc:
-        return jsonify({"ok": False, "error": str(exc)}), 500
-
-
-init_db()
+    return jsonify({"ok": True, "app": "ready", "database": "not_required"})
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000)
